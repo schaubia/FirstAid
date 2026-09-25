@@ -186,7 +186,7 @@ CARDS = [
         "steps": [
             ("Is the cough strong?", "If the baby is coughing or crying loudly, let them cough and watch closely."),
             ("Shout for help, call 112 on speaker", "Keep your hands free for the baby."),
-            ("Up to 5 back blows", "Lay the baby face down along your forearm, head lower than the body. Hold the jaw with your fingers (don't press the soft throat). Give firm blows between the shoulder blades with the heel of your hand."),
+            ("Up to 5 back blows", "Lay the baby face down along your forearm, head lower than the body. Hold the jaw with your fingers (don't press the soft throat). Give firm blows between the shoulder blades with the heel of your hand.", "back_blows_infant"),
             ("Up to 5 chest thrusts", "Turn the baby face up along your other forearm, head still lower. Two fingers on the lower half of the breastbone (same place as CPR). Push sharply down 5 times.", "cpr_infant"),
             ("Repeat", "Alternate 5 back blows and 5 chest thrusts. Check the mouth — remove the object only if you can clearly see it."),
             ("If the baby becomes unresponsive", "Start CPR — see ‘Not breathing (baby)’, starting with 5 breaths."),

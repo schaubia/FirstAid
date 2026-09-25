@@ -112,11 +112,37 @@ RECOVERY = _svg("Recovery position, seen from above", f'''
   <text x="222" y="229" {SMALL}>stops rolling</text>''',
   caption=("Seen from above: on the side, head tilted", "back slightly so the airway stays open."))
 
+BABY = 'fill="#E3EAE7" stroke="#51605A" stroke-width="2.5"'
+
+BACK_BLOWS_INFANT = _svg("Baby back blows: face down along the forearm", f'''
+  <line x1="318" y1="206" x2="96" y2="222" stroke="#CBD5D1" stroke-width="34" stroke-linecap="round"/>
+  <line x1="300" y1="126" x2="78" y2="174" stroke="#7F948C" stroke-width="30" stroke-linecap="round"/>
+  <ellipse cx="192" cy="112" rx="64" ry="22" transform="rotate(-12 192 112)" {BABY}/>
+  <line x1="246" y1="104" x2="268" y2="142" stroke="#E3EAE7" stroke-width="12" stroke-linecap="round"/>
+  <line x1="150" y1="124" x2="146" y2="164" stroke="#E3EAE7" stroke-width="11" stroke-linecap="round"/>
+  <circle cx="112" cy="134" r="25" {BABY}/>
+  <polyline points="66,176 84,168 100,156" fill="none" stroke="#11695A" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <ellipse cx="160" cy="84" rx="22" ry="15" transform="rotate(-12 160 84)" {HAND}/>
+  <path d="M202 30 L172 66" stroke="#C8102E" stroke-width="4"/>
+  <path d="M168 52 L170 70 L187 64" fill="none" stroke="#C8102E" stroke-width="4" stroke-linejoin="round"/>
+  <text x="208" y="32" {LABEL}>Heel of hand,</text>
+  <text x="208" y="50" {LABEL}>between the</text>
+  <text x="208" y="68" {LABEL}>shoulder blades</text>
+  <line x1="96" y1="112" x2="60" y2="70" {LEADER}/>
+  <text x="10" y="44" {SMALL}>Head lower</text>
+  <text x="10" y="60" {SMALL}>than the body</text>
+  <line x1="68" y1="182" x2="46" y2="214" {LEADER}/>
+  <text x="10" y="230" {SMALL}>Fingers hold the jaw</text>
+  <line x1="250" y1="226" x2="250" y2="236" {LEADER}/>
+  <text x="170" y="249" {SMALL}>Rest your arm on your thigh</text>''',
+  caption=("Baby face down along your forearm, head lower.", "Hold the jaw, never the soft throat."), h=252)
+
 ILLUSTRATIONS = {
     "cpr_adult": CPR_ADULT,
     "cpr_child": CPR_CHILD,
     "cpr_infant": CPR_INFANT,
     "abdominal": ABDOMINAL,
     "back_blows": BACK_BLOWS,
+    "back_blows_infant": BACK_BLOWS_INFANT,
     "recovery": RECOVERY,
 }
