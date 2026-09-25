@@ -1,4 +1,5 @@
-"""First aid situations. Each step is (short instruction, detail)."""
+"""First aid situations. Each step is (short instruction, detail) or
+(short instruction, detail, illustration key from illustrations.py)."""
 
 SEV = {
     "red":   {"label": "Life-threatening — call 112 first", "color": "#C8102E"},
@@ -18,7 +19,7 @@ CARDS = [
             ("Check response", "Tap the shoulders firmly and shout: “Are you OK?”"),
             ("Open the airway, check breathing", "Tilt the head back, lift the chin. Look, listen and feel for normal breathing for up to 10 seconds."),
             ("Call 112 on speaker", "Stay with the person. Send someone to bring an AED (defibrillator) if there is one nearby."),
-            ("Push hard and fast", "Heel of your hand in the centre of the chest, other hand on top, arms straight. Press 5–6 cm deep, 100–120 times a minute. Let the chest rise fully between pushes."),
+            ("Push hard and fast", "Heel of your hand in the centre of the chest, other hand on top, arms straight. Press 5–6 cm deep, 100–120 times a minute. Let the chest rise fully between pushes.", "cpr_adult"),
             ("30 pushes, then 2 breaths", "If trained: tilt head, pinch nose, 2 breaths of 1 second each. If not trained or unwilling: just keep pushing without stopping."),
             ("Use the AED as soon as it arrives", "Switch it on and follow the spoken instructions. Keep pushing while the pads are being placed."),
             ("Don't stop", "Continue until help takes over, the person starts breathing normally, or you are physically unable to go on. Swap with another person every 2 minutes if possible."),
@@ -35,7 +36,7 @@ CARDS = [
         "steps": [
             ("Check breathing", "Tilt the head back, lift the chin, and confirm normal breathing for up to 10 seconds."),
             ("Call 112", "Put the phone on speaker so your hands stay free."),
-            ("Roll onto the side", "Arm nearest you at a right angle. Other hand against their cheek. Bend the far knee, pull it toward you so they roll onto their side."),
+            ("Roll onto the side", "Arm nearest you at a right angle. Other hand against their cheek. Bend the far knee, pull it toward you so they roll onto their side.", "recovery"),
             ("Keep the airway open", "Tilt the head back slightly so the mouth points down and fluids can drain."),
             ("Keep checking breathing", "Check every minute. If breathing stops, roll them on their back and start CPR (see ‘Not breathing’)."),
             ("Keep them warm", "Cover with a coat or blanket until help arrives."),
@@ -50,8 +51,8 @@ CARDS = [
         "recognize": "Suddenly can't speak, cough or breathe; often grabs the throat.",
         "steps": [
             ("Ask “Are you choking?”", "If they can cough strongly, encourage them to keep coughing and stay with them."),
-            ("Up to 5 back blows", "Stand to the side, lean them forward, support the chest. Give firm blows between the shoulder blades with the heel of your hand. Check after each blow."),
-            ("Up to 5 abdominal thrusts", "Stand behind, fist just above the belly button, other hand over it. Pull sharply inward and upward. Check after each thrust."),
+            ("Up to 5 back blows", "Stand to the side, lean them forward, support the chest. Give firm blows between the shoulder blades with the heel of your hand. Check after each blow.", "back_blows"),
+            ("Up to 5 abdominal thrusts", "Stand behind, fist just above the belly button, other hand over it. Pull sharply inward and upward. Check after each thrust.", "abdominal"),
             ("Repeat", "Alternate 5 back blows and 5 thrusts until the object comes out."),
             ("Call 112 if it isn't cleared", "Keep going while someone calls."),
             ("If they become unresponsive", "Lower them to the ground, call 112, and start CPR (see ‘Not breathing’)."),
@@ -134,7 +135,7 @@ CARDS = [
             ("Call 112 on speaker", "Shout for help. If you have a phone, call 112 now and put it on speaker. No phone? Do 1 minute of CPR first, then go and call."),
             ("Open the airway, check breathing", "Tilt the head back gently and lift the chin. Look, listen and feel for normal breathing for up to 10 seconds."),
             ("Give 5 rescue breaths", "Pinch the nose, seal your mouth over theirs, blow steadily for about 1 second — just enough to make the chest rise."),
-            ("Give 15 chest compressions", "Heel of one hand (or two hands for a bigger child) on the lower half of the breastbone. Press about 5 cm — one third of the chest depth — 100–120 times a minute."),
+            ("Give 15 chest compressions", "Heel of one hand (or two hands for a bigger child) on the lower half of the breastbone. Press about 5 cm — one third of the chest depth — 100–120 times a minute.", "cpr_child"),
             ("Continue 2 breaths, 15 compressions", "Keep repeating without long pauses. If you can't or won't give breaths, keep doing compressions only — it's much better than nothing."),
             ("Use the AED as soon as it arrives", "Switch it on and follow the voice. Use child pads or child mode if it has them; otherwise adult pads are fine."),
         ],
@@ -153,7 +154,7 @@ CARDS = [
             ("Open the airway — head level", "Lay the baby on their back on a firm surface. Keep the head in a neutral position (nose pointing up), not tilted back. Lift the chin with one finger."),
             ("Check breathing", "Look, listen and feel for normal breathing for up to 10 seconds."),
             ("Give 5 rescue breaths", "Cover the baby's mouth AND nose with your mouth. Give gentle puffs of about 1 second — just enough to make the chest rise."),
-            ("Give 15 chest compressions", "Two fingers on the lower half of the breastbone (just below the nipple line). Press about 4 cm — one third of the chest depth — 100–120 times a minute."),
+            ("Give 15 chest compressions", "Two fingers on the lower half of the breastbone (just below the nipple line). Press about 4 cm — one third of the chest depth — 100–120 times a minute.", "cpr_infant"),
             ("Continue 2 breaths, 15 compressions", "Keep repeating. If you can't give breaths, keep doing compressions only."),
             ("Use an AED if one arrives", "Follow the voice. Use child pads or child mode if available — one pad on the chest, one on the back if the pads don't fit on the front."),
         ],
@@ -168,8 +169,8 @@ CARDS = [
         "steps": [
             ("Is the cough strong?", "If the child can cough loudly, encourage coughing and stay close. Don't hit the back."),
             ("Shout for help, call 112 on speaker", "Keep your hands free for the child."),
-            ("Up to 5 back blows", "Kneel or stand behind/beside the child, lean them forward. Firm blows between the shoulder blades with the heel of your hand. Check after each blow."),
-            ("Up to 5 abdominal thrusts", "Kneel or stand behind. Fist just above the belly button, other hand over it. Pull sharply inward and upward. Check after each thrust."),
+            ("Up to 5 back blows", "Kneel or stand behind/beside the child, lean them forward. Firm blows between the shoulder blades with the heel of your hand. Check after each blow.", "back_blows"),
+            ("Up to 5 abdominal thrusts", "Kneel or stand behind. Fist just above the belly button, other hand over it. Pull sharply inward and upward. Check after each thrust.", "abdominal"),
             ("Repeat", "Alternate 5 back blows and 5 thrusts until the object comes out or the child becomes unresponsive."),
             ("If the child becomes unresponsive", "Lay them down and start CPR — see ‘Not breathing (child)’, starting with 5 breaths."),
         ],
@@ -186,7 +187,7 @@ CARDS = [
             ("Is the cough strong?", "If the baby is coughing or crying loudly, let them cough and watch closely."),
             ("Shout for help, call 112 on speaker", "Keep your hands free for the baby."),
             ("Up to 5 back blows", "Lay the baby face down along your forearm, head lower than the body. Hold the jaw with your fingers (don't press the soft throat). Give firm blows between the shoulder blades with the heel of your hand."),
-            ("Up to 5 chest thrusts", "Turn the baby face up along your other forearm, head still lower. Two fingers on the lower half of the breastbone (same place as CPR). Push sharply down 5 times."),
+            ("Up to 5 chest thrusts", "Turn the baby face up along your other forearm, head still lower. Two fingers on the lower half of the breastbone (same place as CPR). Push sharply down 5 times.", "cpr_infant"),
             ("Repeat", "Alternate 5 back blows and 5 chest thrusts. Check the mouth — remove the object only if you can clearly see it."),
             ("If the baby becomes unresponsive", "Start CPR — see ‘Not breathing (baby)’, starting with 5 breaths."),
         ],
@@ -204,7 +205,7 @@ CARDS = [
             ("Note the time", "Check how long the seizure lasts."),
             ("Protect from injury", "Move hard or sharp objects away. Cushion the head with something soft."),
             ("Let it happen", "Don't hold them down. Loosen anything tight around the neck."),
-            ("After shaking stops", "Check breathing and put them in the recovery position."),
+            ("After shaking stops", "Check breathing and put them in the recovery position.", "recovery"),
             ("Stay with them", "Talk calmly — they may be confused or sleepy for a while."),
         ],
         "when": ["Seizure lasts more than 5 minutes", "Another seizure follows", "First-ever seizure",

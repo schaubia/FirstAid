@@ -1,10 +1,8 @@
-import base64
 import html
 
 import streamlit as st
 
 from cards import CARDS, SEV
-from illustrations import ILLUSTRATIONS
 
 st.set_page_config(page_title="First Aid", page_icon="⛑️", layout="centered",
                    initial_sidebar_state="collapsed")
@@ -55,7 +53,6 @@ div[data-testid="stCheckbox"] label p { font-size:20px; }
 .box ul { margin:0; padding-left:20px; }
 .box.red { background:#FBE7EA; }
 .box.amber { background:#FCEFD9; }
-.pic img { width:100%; max-width:340px; display:block; margin:6px 0 4px; }
 .note { margin-top:28px; font-size:15px; color:#51605A; }
 </style>
 """, unsafe_allow_html=True)
@@ -101,14 +98,6 @@ def open_card(card_id):
 
 def go_home():
     st.query_params.clear()
-
-
-def picture(step):
-    """Show the step's illustration, if it has one."""
-    if len(step) > 2 and step[2] in ILLUSTRATIONS:
-        data = base64.b64encode(ILLUSTRATIONS[step[2]].encode()).decode()
-        st.markdown(f'<div class="pic"><img src="data:image/svg+xml;base64,{data}" alt=""></div>',
-                    unsafe_allow_html=True)
 
 
 def box(kind, title, items):
@@ -164,16 +153,14 @@ def render_card(c):
 
     steps = c["steps"]
     if mode == "All steps":
-        for i, step in enumerate(steps):
-            title, desc = step[0], step[1]
+        for i, (title, desc) in enumerate(steps):
             with st.container(border=True):
                 st.checkbox(f"**{i + 1}. {title}**", key=f'{c["id"]}_done_{i}')
                 st.markdown(f'<div class="stepdesc">{html.escape(desc)}</div>',
                             unsafe_allow_html=True)
-                picture(step)
     else:
         i = min(st.session_state.get("step", 0), len(steps) - 1)
-        title, desc = steps[i][0], steps[i][1]
+        title, desc = steps[i]
         with st.container(border=True):
             st.markdown(f'<div class="guide" style="--c:{color}">'
                         f'<div class="count">Step {i + 1} of {len(steps)}</div>'
@@ -181,7 +168,6 @@ def render_card(c):
                         f'<div class="title">{html.escape(title)}</div>'
                         f'<div class="desc">{html.escape(desc)}</div></div>',
                         unsafe_allow_html=True)
-            picture(steps[i])
             back, nxt = st.columns(2)
             if back.button("Back", disabled=i == 0, use_container_width=True):
                 st.session_state.step = i - 1
