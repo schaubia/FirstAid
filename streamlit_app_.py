@@ -11,32 +11,6 @@ st.set_page_config(page_title="First Aid", page_icon="⛑️", layout="centered"
 
 BY_ID = {c["id"]: c for c in CARDS}
 
-# ---------- quick triage ("Don't know what's wrong?") ----------
-# Each question: (question, hint, [(answer label, target), ...])
-# target = another question id, "card:<card id>", or "list" (close and show all cards)
-TRIAGE = {
-    "start": ("Does the person respond when you shout and tap their shoulders?", "",
-              [("Yes, they respond", "talk"),
-               ("No response", "breath")]),
-    "breath": ("Are they breathing normally?",
-               "Tilt the head back, lift the chin, and watch the chest for up to 10 seconds. "
-               "Gasping doesn't count.",
-               [("Yes, breathing normally", "card:unconscious"),
-                ("No, or only gasping", "age_cpr")]),
-    "age_cpr": ("How old are they?", "Call 112 now if you haven't — put the phone on speaker.",
-                [("Adult or teenager", "card:cpr"),
-                 ("Child (1 year to puberty)", "card:cpr-child"),
-                 ("Baby (under 1 year)", "card:cpr-infant")]),
-    "talk": ("Can they breathe, speak or cough?", "",
-             [("Yes — show me all situations", "list"),
-              ("No — can't breathe, speak or cough", "age_choke"),
-              ("Swollen lips or throat after food, a sting or medicine", "card:allergy")]),
-    "age_choke": ("How old are they?", "",
-                  [("Adult or teenager", "card:choking"),
-                   ("Child (1 year to puberty)", "card:choking-child"),
-                   ("Baby (under 1 year)", "card:choking-infant")]),
-}
-
 # ---------- styling ----------
 st.markdown("""
 <style>
@@ -56,10 +30,6 @@ a.call { background:#C8102E; color:#fff !important; text-decoration:none !import
 div.stButton > button { min-height:64px; font-size:19px; font-weight:700; border-radius:10px;
   justify-content:flex-start; text-align:left; border:1px solid #CBD5D1; }
 div.stButton > button p { font-size:19px; font-weight:700; }
-div.stButton > button[kind="primary"] { background:#C8102E; border-color:#C8102E; color:#fff; }
-
-.tq { font-size:26px; font-weight:700; line-height:1.25; margin:10px 0 6px; }
-.tq-hint { font-size:18px; color:#51605A; margin-bottom:12px; }
 
 .group { font-size:16px; font-weight:700; color:#51605A; margin:22px 0 8px;
   display:flex; align-items:center; gap:8px; }
@@ -127,22 +97,10 @@ b.onclick=()=>{
 def open_card(card_id):
     st.query_params["card"] = card_id
     st.session_state.step = 0
-    st.session_state.tri = None
 
 
 def go_home():
     st.query_params.clear()
-    st.session_state.tri = None
-
-
-def triage_go(target):
-    """Move to the next triage question, open a card, or close the triage."""
-    if target.startswith("card:"):
-        open_card(target[5:])
-    elif target == "list":
-        st.session_state.tri = None
-    else:
-        st.session_state.tri = target
 
 
 def picture(step):
@@ -159,30 +117,8 @@ def box(kind, title, items):
                 unsafe_allow_html=True)
 
 
-# ---------- triage screen ----------
-def render_triage(node):
-    question, hint, answers = TRIAGE[node]
-    st.button("‹ Cancel", key="tri_cancel", on_click=triage_go, args=("list",))
-    st.markdown(f'<div class="tq">{html.escape(question)}</div>', unsafe_allow_html=True)
-    if hint:
-        st.markdown(f'<div class="tq-hint">{html.escape(hint)}</div>', unsafe_allow_html=True)
-    for label, target in answers:
-        st.button(label, key=f"tri_{node}_{target}", on_click=triage_go, args=(target,),
-                  use_container_width=True)
-    st.markdown('<p class="note">Not sure? Call 112 — the operator will guide you.</p>',
-                unsafe_allow_html=True)
-
-
 # ---------- home screen ----------
 def render_home():
-    node = st.session_state.get("tri")
-    if node in TRIAGE:
-        render_triage(node)
-        return
-
-    st.button("🆘 Don't know what's wrong? Start here", key="tri_open", type="primary",
-              on_click=triage_go, args=("start",), use_container_width=True)
-
     q = st.text_input("Search", placeholder="🔍 What happened? e.g. burn, choking",
                       label_visibility="collapsed").strip().lower()
     found = [c for c in CARDS
