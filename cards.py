@@ -270,6 +270,23 @@ CARDS = [
                  "Don't hold the baby upside down by the legs or shake them"],
     },
     {
+        "id": "asthma", "sev": "amber", "title": "Asthma attack", "sub": "Wheezing, can't catch breath",
+        "keys": "asthma attack wheezing wheeze inhaler puffer breathless shortness of breath tight chest",
+        "recognize": "Person with asthma who is wheezing, coughing, has a tight chest, and struggles to breathe or to speak in full sentences.",
+        "steps": [
+            ("Sit them upright", "Sitting up, leaning slightly forward — not lying down. Loosen tight clothing and keep them calm."),
+            ("Help them use their reliever inhaler", "Usually the blue one. Shake it, then 1 puff every 30–60 seconds, up to 10 puffs. Use a spacer if they have one."),
+            ("Slow breathing", "Encourage slow, steady breaths. Stay calm yourself — panic makes breathing harder."),
+            ("No better after 10 puffs? Call 112", "Call at once too if they are getting worse, too breathless to speak, or their lips turn blue."),
+            ("Repeat while you wait", "If help hasn't arrived after 10 minutes, give up to 10 more puffs the same way."),
+            ("If they become unresponsive", "Not breathing normally: start CPR (see ‘Not breathing’)."),
+        ],
+        "when": ["No better after 10 puffs", "Too breathless to speak, eat or sleep",
+                 "Lips or fingertips turning blue or grey", "Exhausted, drowsy or confused",
+                 "No inhaler available and breathing is hard"],
+        "dont": ["Don't lay them down", "Don't put a paper bag over their mouth", "Don't leave them alone"],
+    },
+    {
         "id": "seizure", "sev": "amber", "title": "Seizure", "sub": "Convulsions, fit",
         "keys": "seizure fit convulsion epilepsy shaking epileptic",
         "recognize": "Sudden stiffening and jerking movements, may fall, not aware of surroundings.",
