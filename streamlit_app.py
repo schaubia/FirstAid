@@ -297,8 +297,9 @@ def render_home():
             continue
         st.markdown(f'<div class="group"><i style="background:{meta["color"]}"></i>'
                     f'{html.escape(meta["label"])}</div>', unsafe_allow_html=True)
-        cols = st.columns(2)
         for i, c in enumerate(group):
+            if i % 2 == 0:              # new row every 2 tiles, so phones keep the same order
+                cols = st.columns(2)
             cols[i % 2].button(c["title"], key=f'tile_{c["id"]}', help=c["sub"],
                                on_click=open_card, args=(c["id"],),
                                use_container_width=True)
@@ -338,7 +339,8 @@ def render_card(c):
         i = min(st.session_state.get("step", 0), len(steps) - 1)
         title, desc = steps[i][0], steps[i][1]
         with st.container(border=True):
-            st.markdown(f'<div class="guide" style="--c:{color}">'
+            ink = SEV[c["sev"]].get("ink", color)   # darker shade for the big number, if set
+            st.markdown(f'<div class="guide" style="--c:{ink}">'
                         f'<div class="count">{T["step_of"].format(i=i + 1, n=len(steps))}</div>'
                         f'<div class="num">{i + 1}</div>'
                         f'<div class="title">{html.escape(title)}</div>'
