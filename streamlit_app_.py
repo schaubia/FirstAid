@@ -82,11 +82,7 @@ TRIAGE = {
     "en": {
         "start": ("Does the person respond when you shout and tap their shoulders?", "",
                   [("Yes, they respond", "talk"),
-                   ("No response", "breath"),
-                   ("Jerking or shaking all over (seizure)", "seizure_kind")]),
-        "seizure_kind": ("Is it a young child with a fever?", "",
-                         [("Yes - child 6 months to 5 years with fever", "card:febrile"),
-                          ("No", "card:seizure")]),
+                   ("No response", "breath")]),
         "breath": ("Are they breathing normally?",
                    "Tilt the head back, lift the chin, and watch the chest for up to 10 seconds. "
                    "Gasping doesn't count.",
@@ -109,11 +105,7 @@ TRIAGE = {
     "bg": {
         "start": ("Реагира ли човекът, когато го викате и го потупвате по раменете?", "",
                   [("Да, реагира", "talk"),
-                   ("Не реагира", "breath"),
-                   ("Потрепва или се тресе цялото тяло (гърч)", "seizure_kind")]),
-        "seizure_kind": ("Малко дете с температура ли е?", "",
-                         [("Да - дете от 6 месеца до 5 години с температура", "card:febrile"),
-                          ("Не", "card:seizure")]),
+                   ("Не реагира", "breath")]),
         "breath": ("Диша ли нормално?",
                    "Наклонете главата назад, повдигнете брадичката и гледайте гърдите до 10 секунди. "
                    "Редките хрипливи вдишвания не се броят.",
