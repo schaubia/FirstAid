@@ -283,11 +283,120 @@ def tape_knee(lang="en"):
     return _svg(t["title"], body, caption=t["caption"], h=256)
 
 
+# Wrist: back of the hand + side view with the wrist bent down
+SKIN = 'fill="#E3EAE7" stroke="#51605A" stroke-width="2.5" stroke-linejoin="round"'
+
+WRIST_TEXT = {
+    "en": dict(title="Kinesio tape on the wrist, back of the hand and side",
+               top="Back of the hand", side="Side, wrist bent down",
+               caption=("Strip 1 from just below the knuckles along",
+                        "the forearm, light stretch. Strip 2 across the",
+                        "wrist - ends don't meet on the palm side.")),
+    "bg": dict(title="Кинезио тейп на китката, гръб на дланта и отстрани",
+               top="Гръб на дланта", side="Отстрани, китката свита",
+               caption=("Лента 1 от кокалчетата по предмишницата,",
+                        "с леко опъване. Лента 2 напряко на китката -",
+                        "краищата не се срещат откъм дланта.")),
+}
+
+_S_HAND = ("M175,70 L255,68 C282,70 298,98 304,140 C307,160 307,185 302,200 C298,206 290,204 289,196 "
+           "C287,175 284,155 280,140 C274,122 262,110 250,108 L175,110")
+
+
+def tape_wrist(lang="en"):
+    t = WRIST_TEXT[lang]
+    fingers = "".join(f'<rect x="{x}" y="184" width="13" height="{h}" rx="6.5" {SKIN}/>'
+                      for x, h in ((56, 42), (71, 50), (86, 48), (101, 40)))
+    body = f'''
+  <line x1="170" y1="8" x2="170" y2="236" stroke="#CBD5D1" stroke-width="2" stroke-dasharray="4 5"/>
+
+  <line x1="62" y1="136" x2="36" y2="174" stroke="#51605A" stroke-width="20" stroke-linecap="round"/>
+  <line x1="62" y1="136" x2="36" y2="174" stroke="#E3EAE7" stroke-width="15" stroke-linecap="round"/>
+  {fingers}
+  <rect x="54" y="116" width="62" height="78" rx="14" {SKIN}/>
+  <path d="M57,0 L61,124 L109,124 L113,0 Z" fill="#E3EAE7"/>
+  <path d="M57,0 L61,124 M113,0 L109,124" fill="none" stroke="#51605A" stroke-width="3"/>
+  <line x1="85" y1="40" x2="85" y2="180" {TAPE1} stroke-width="13" stroke-linecap="round"/>
+  <line x1="60" y1="122" x2="110" y2="122" {TAPE2} stroke-width="11" stroke-linecap="round"/>
+  <g {STRETCH}>
+    <line x1="77" y1="122" x2="93" y2="122"/>
+    <polyline points="81,118.5 76,122 81,125.5"/>
+    <polyline points="89,118.5 94,122 89,125.5"/>
+  </g>
+  {_badge(36, 44, 1, "#11695A")}
+  {_badge(134, 122, 2, "#E09A12")}
+  <text x="85" y="250" text-anchor="middle" {SMALL}>{t["top"]}</text>
+
+  <path d="{_S_HAND} Z" fill="#E3EAE7"/>
+  <path d="{_S_HAND}" fill="none" stroke="#51605A" stroke-width="3" stroke-linejoin="round"/>
+  <ellipse cx="277" cy="125" rx="16" ry="6.5" transform="rotate(52 277 125)" {SKIN}/>
+  <path d="M299,133 C294,100 281,79 258,76 L200,77" fill="none" {TAPE1} stroke-width="10" stroke-linecap="round"/>
+  <line x1="262" y1="73" x2="262" y2="95" {TAPE2} stroke-width="10" stroke-linecap="round"/>
+  <line x1="262" y1="101" x2="262" y2="108" stroke="#C8102E" stroke-width="2" stroke-dasharray="2 3"/>
+  {_badge(200, 52, 1, "#11695A")}
+  {_badge(282, 50, 2, "#E09A12")}
+  <text x="255" y="250" text-anchor="middle" {SMALL}>{t["side"]}</text>'''
+    return _svg(t["title"], body, caption=t["caption"], h=256)
+
+
+# Shoulder: side view + view from above
+SHOULDER_TEXT = {
+    "en": dict(title="Kinesio tape on the shoulder, side and above",
+               side="From the side", top="From above",
+               caption=("Y-strip: base on the outer upper arm, tails",
+                        "over the front and back of the shoulder.",
+                        "Arm back for the front tail, forward for the back.")),
+    "bg": dict(title="Кинезио тейп на рамото, отстрани и отгоре",
+               side="Отстрани", top="Отгоре",
+               caption=("Y-лента: основата отвън на мишницата,",
+                        "опашките отпред и отзад на рамото.",
+                        "Ръката назад за предната, напред за задната.")),
+}
+
+# side view, facing right: back on the left, chest on the right
+_TORSO = ("M44,240 L42,120 C42,84 56,64 80,56 L82,40 M100,40 L102,58 C126,64 144,84 148,116 "
+          "C150,134 146,150 142,166 L140,240")
+_TORSO_FILL = ("M44,240 L42,120 C42,84 56,64 80,56 L82,40 L100,40 L102,58 C126,64 144,84 148,116 "
+               "C150,134 146,150 142,166 L140,240 Z")
+_HEAD = "M76,36 C66,26 68,4 88,0 C106,-2 116,8 116,18 L122,26 L115,28 C114,36 106,42 96,42 C88,42 80,40 76,36 Z"
+_ARM = "M64,80 C62,60 74,48 89,48 C105,48 116,60 114,80 L108,238 L70,238 Z"
+
+
+def tape_shoulder(lang="en"):
+    t = SHOULDER_TEXT[lang]
+    body = f'''
+  <line x1="170" y1="8" x2="170" y2="236" stroke="#CBD5D1" stroke-width="2" stroke-dasharray="4 5"/>
+
+  <path d="{_TORSO_FILL}" fill="#EEF2F0"/>
+  <path d="{_TORSO}" fill="none" stroke="#9AACA5" stroke-width="2.5"/>
+  <path d="{_HEAD}" fill="#EEF2F0" stroke="#9AACA5" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="{_ARM}" {SKIN}/>
+  <line x1="89" y1="132" x2="89" y2="104" {TAPE1} stroke-width="14" stroke-linecap="round"/>
+  <path d="M89,106 C106,98 112,76 101,58" fill="none" {TAPE1} stroke-width="8" stroke-linecap="round"/>
+  <path d="M89,106 C72,98 66,76 77,58" fill="none" {TAPE1} stroke-width="8" stroke-linecap="round"/>
+  {_badge(128, 132, 1, "#11695A")}
+  <text x="85" y="250" text-anchor="middle" {SMALL}>{t["side"]}</text>
+
+  <path d="M190,96 C230,88 290,88 316,100 C326,106 326,134 316,140 C290,152 230,152 190,144 C180,138 180,102 190,96 Z" {SKIN}/>
+  <circle cx="214" cy="120" r="27" {SKIN}/>
+  <path d="M206,146 L214,158 L222,146" fill="#E3EAE7" stroke="#51605A" stroke-width="2.5" stroke-linejoin="round"/>
+  <line x1="318" y1="120" x2="330" y2="120" {TAPE1} stroke-width="12" stroke-linecap="round"/>
+  <path d="M320,120 C320,138 304,144 288,132" fill="none" {TAPE1} stroke-width="8" stroke-linecap="round"/>
+  <path d="M320,120 C320,102 304,96 288,108" fill="none" {TAPE1} stroke-width="8" stroke-linecap="round"/>
+  {_badge(300, 72, 1, "#11695A")}
+  <text x="255" y="250" text-anchor="middle" {SMALL}>{t["top"]}</text>'''
+    return _svg(t["title"], body, caption=t["caption"], h=256)
+
+
 ILLUSTRATIONS["tape_ankle"] = tape_ankle("en")
 ILLUSTRATIONS["tape_knee"] = tape_knee("en")
+ILLUSTRATIONS["tape_wrist"] = tape_wrist("en")
+ILLUSTRATIONS["tape_shoulder"] = tape_shoulder("en")
 
 # Bulgarian versions. A drawing missing here falls back to the English one above.
 ILLUSTRATIONS_BG = {
     "tape_ankle": tape_ankle("bg"),
     "tape_knee": tape_knee("bg"),
+    "tape_wrist": tape_wrist("bg"),
+    "tape_shoulder": tape_shoulder("bg"),
 }
