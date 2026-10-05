@@ -388,10 +388,73 @@ def tape_shoulder(lang="en"):
     return _svg(t["title"], body, caption=t["caption"], h=256)
 
 
+# Lower back: from behind + side view bent forward
+BACK_TEXT = {
+    "en": dict(title="Kinesio tape on the lower back, from behind and side",
+               behind="From behind", side="Bent forward",
+               caption=("Bend forward. Two strips on the muscles",
+                        "beside the spine, from above the buttocks",
+                        "up, light stretch. Strip 2 is optional:",
+                        "across the painful spot, half stretch.")),
+    "bg": dict(title="Кинезио тейп на кръста, отзад и отстрани",
+               behind="Отзад", side="Наведен напред",
+               caption=("Наведете се напред. Две ленти по мускулите",
+                        "от двете страни на гръбнака, от седалището",
+                        "нагоре, с леко опъване. Лента 2 е по желание:",
+                        "напряко на болното място, половин опъване.")),
+}
+
+# back view of the torso, shoulders at the top, buttocks at the bottom
+_BACK_FILL = ("M14,40 C14,14 40,4 60,2 L110,2 C130,4 156,14 156,40 C156,80 140,110 136,150 "
+              "C134,175 146,195 146,236 L24,236 C24,195 36,175 34,150 C30,110 14,80 14,40 Z")
+_BACK_L = "M14,40 C14,14 40,4 60,2 M14,40 C14,80 30,110 34,150 C36,175 24,195 24,236"
+_BACK_R = "M110,2 C130,4 156,14 156,40 C156,80 140,110 136,150 C134,175 146,195 146,236"
+
+# side view, bent forward, facing right
+_BENT = ("M226,141 L282,85 C290,77 304,79 310,90 C314,98 314,106 310,113 L254,169 "
+         "L256,236 L236,236 L232,178 C222,168 220,152 226,141 Z")
+
+
+def tape_back(lang="en"):
+    t = BACK_TEXT[lang]
+    body = f'''
+  <line x1="170" y1="8" x2="170" y2="236" stroke="#CBD5D1" stroke-width="2" stroke-dasharray="4 5"/>
+
+  <path d="{_BACK_FILL}" fill="#E3EAE7"/>
+  <path d="{_BACK_L}" fill="none" stroke="#51605A" stroke-width="3"/>
+  <path d="{_BACK_R}" fill="none" stroke="#51605A" stroke-width="3"/>
+  <line x1="85" y1="14" x2="85" y2="200" stroke="#51605A" stroke-width="2" stroke-dasharray="3 4"/>
+  <path d="M40,212 C56,202 76,202 85,212 C94,202 114,202 130,212 M85,212 L85,236"
+        fill="none" stroke="#51605A" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="69" y1="98" x2="69" y2="194" {TAPE1} stroke-width="12" stroke-linecap="round"/>
+  <line x1="101" y1="98" x2="101" y2="194" {TAPE1} stroke-width="12" stroke-linecap="round"/>
+  <line x1="52" y1="150" x2="118" y2="150" {TAPE2} stroke-width="11" stroke-linecap="round"/>
+  <g {STRETCH}>
+    <line x1="77" y1="150" x2="93" y2="150"/>
+    <polyline points="81,146.5 76,150 81,153.5"/>
+    <polyline points="89,146.5 94,150 89,153.5"/>
+  </g>
+  {_badge(69, 80, 1, "#11695A")}
+  {_badge(101, 80, 1, "#11695A")}
+  {_badge(138, 150, 2, "#E09A12")}
+  <text x="85" y="250" text-anchor="middle" {SMALL}>{t["behind"]}</text>
+
+  <rect x="232" y="230" width="38" height="9" rx="4.5" {SKIN}/>
+  <path d="{_BENT}" {SKIN}/>
+  <circle cx="316" cy="98" r="15" {SKIN}/>
+  <line x1="293" y1="104" x2="297" y2="168" stroke="#51605A" stroke-width="16" stroke-linecap="round"/>
+  <line x1="293" y1="104" x2="297" y2="168" stroke="#E3EAE7" stroke-width="11" stroke-linecap="round"/>
+  <line x1="233" y1="143" x2="270" y2="106" {TAPE1} stroke-width="10" stroke-linecap="round"/>
+  {_badge(236, 110, 1, "#11695A")}
+  <text x="255" y="250" text-anchor="middle" {SMALL}>{t["side"]}</text>'''
+    return _svg(t["title"], body, caption=t["caption"], h=256)
+
+
 ILLUSTRATIONS["tape_ankle"] = tape_ankle("en")
 ILLUSTRATIONS["tape_knee"] = tape_knee("en")
 ILLUSTRATIONS["tape_wrist"] = tape_wrist("en")
 ILLUSTRATIONS["tape_shoulder"] = tape_shoulder("en")
+ILLUSTRATIONS["tape_back"] = tape_back("en")
 
 # Bulgarian versions. A drawing missing here falls back to the English one above.
 ILLUSTRATIONS_BG = {
@@ -399,4 +462,5 @@ ILLUSTRATIONS_BG = {
     "tape_knee": tape_knee("bg"),
     "tape_wrist": tape_wrist("bg"),
     "tape_shoulder": tape_shoulder("bg"),
+    "tape_back": tape_back("bg"),
 }
