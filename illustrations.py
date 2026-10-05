@@ -217,9 +217,77 @@ def tape_ankle(lang="en"):
     return _svg(t["title"], body, caption=t["caption"])
 
 
+# Knee: front view + side view with the knee bent
+TAPE3 = 'stroke="#4F7FA8" stroke-opacity="0.9"'   # side X - blue-grey, goes on first
+
+KNEE_TEXT = {
+    "en": dict(title="Kinesio tape on the knee, front and side",
+               front="Front", side="From the side",
+               caption=("Y-strip: base above the kneecap, tails around",
+                        "both sides with light stretch. Knee bent.",
+                        "Strip 2 is optional: half stretch below it.",
+                        "X: if the side hurts, put it on first, under the Y.")),
+    "bg": dict(title="Кинезио тейп на коляното, отпред и отстрани",
+               front="Отпред", side="Отстрани",
+               caption=("Y-лента: основата над капачката, опашките",
+                        "от двете ѝ страни с леко опъване.",
+                        "Коляно свито. Лента 2 е по желание.",
+                        "X при болка отстрани: слага се първа, под Y.")),
+}
+
+_F_FILL = ("M48,0 C50,60 52,95 54,118 C54,135 58,150 60,170 C62,200 62,220 62,232 "
+           "L108,232 C108,220 108,200 110,170 C112,150 116,135 116,118 C118,95 120,60 122,0 Z")
+_F_LEFT = "M48,0 C50,60 52,95 54,118 C54,135 58,150 60,170 C62,200 62,220 62,232"
+_F_RIGHT = "M122,0 C120,60 118,95 116,118 C116,135 112,150 110,170 C108,200 108,220 108,232"
+_S_FILL = ("M178,58 L280,58 C300,58 312,70 312,92 C312,110 306,130 304,150 C302,180 300,210 298,232 "
+           "L268,232 C266,210 252,185 252,160 C252,138 258,124 256,114 L178,112 Z")
+_S_TOP = "M178,58 L280,58 C300,58 312,70 312,92 C312,110 306,130 304,150 C302,180 300,210 298,232"
+_S_BACK = "M178,112 L256,114 C258,124 252,138 252,160 C252,185 266,210 268,232"
+
+
+def tape_knee(lang="en"):
+    t = KNEE_TEXT[lang]
+    body = f'''
+  <line x1="170" y1="8" x2="170" y2="236" stroke="#CBD5D1" stroke-width="2" stroke-dasharray="4 5"/>
+
+  <path d="{_F_FILL}" fill="#E3EAE7"/>
+  <path d="{_F_LEFT}" fill="none" stroke="#51605A" stroke-width="3"/>
+  <path d="{_F_RIGHT}" fill="none" stroke="#51605A" stroke-width="3"/>
+  <ellipse cx="85" cy="118" rx="17" ry="20" fill="#D3DDD9" stroke="#51605A" stroke-width="2.5"/>
+  <line x1="85" y1="30" x2="85" y2="84" {TAPE1} stroke-width="15" stroke-linecap="round"/>
+  <path d="M85,80 C66,88 60,108 62,126 C64,144 70,158 76,172" fill="none" {TAPE1} stroke-width="8" stroke-linecap="round"/>
+  <path d="M85,80 C104,88 110,108 108,126 C106,144 100,158 94,172" fill="none" {TAPE1} stroke-width="8" stroke-linecap="round"/>
+  <path d="M66,151 C76,156 94,156 104,151" fill="none" {TAPE2} stroke-width="10" stroke-linecap="round"/>
+  <g {STRETCH}>
+    <line x1="78" y1="154.5" x2="92" y2="154.5"/>
+    <polyline points="82,151 77,154.5 82,158"/>
+    <polyline points="88,151 93,154.5 88,158"/>
+  </g>
+  {_badge(63, 34, 1, "#11695A")}
+  {_badge(127, 152, 2, "#E09A12")}
+  <text x="85" y="250" text-anchor="middle" {SMALL}>{t["front"]}</text>
+
+  <path d="{_S_FILL}" fill="#E3EAE7"/>
+  <path d="{_S_TOP}" fill="none" stroke="#51605A" stroke-width="3" stroke-linejoin="round"/>
+  <path d="{_S_BACK}" fill="none" stroke="#51605A" stroke-width="3" stroke-linejoin="round"/>
+  <ellipse cx="302" cy="88" rx="9" ry="17" fill="#D3DDD9" stroke="#51605A" stroke-width="2.5"/>
+  <line x1="265" y1="80" x2="293" y2="108" {TAPE3} stroke-width="9" stroke-linecap="round"/>
+  <line x1="293" y1="80" x2="265" y2="108" {TAPE3} stroke-width="9" stroke-linecap="round"/>
+  <line x1="206" y1="67" x2="262" y2="67" {TAPE1} stroke-width="12" stroke-linecap="round"/>
+  <path d="M260,67 C280,67 289,78 289,92 C289,108 291,122 295,140" fill="none" {TAPE1} stroke-width="8" stroke-linecap="round"/>
+  <path d="M290,121 C296,124 302,124 306,121" fill="none" {TAPE2} stroke-width="9" stroke-linecap="round"/>
+  {_badge(206, 42, 1, "#11695A")}
+  {_badge(322, 124, 2, "#E09A12")}
+  {_badge(246, 124, "X", "#4F7FA8")}
+  <text x="255" y="250" text-anchor="middle" {SMALL}>{t["side"]}</text>'''
+    return _svg(t["title"], body, caption=t["caption"], h=256)
+
+
 ILLUSTRATIONS["tape_ankle"] = tape_ankle("en")
+ILLUSTRATIONS["tape_knee"] = tape_knee("en")
 
 # Bulgarian versions. A drawing missing here falls back to the English one above.
 ILLUSTRATIONS_BG = {
     "tape_ankle": tape_ankle("bg"),
+    "tape_knee": tape_knee("bg"),
 }
