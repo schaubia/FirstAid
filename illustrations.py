@@ -37,7 +37,7 @@ CPR_ADULT = _svg("Adult CPR hand position", _torso() + f'''
   <line x1="200" y1="122" x2="262" y2="122" {LEADER}/>
   <text x="266" y="118" {LABEL}>2 hands,</text>
   <text x="266" y="136" {LABEL}>stacked</text>''',
-  caption=("Centre of the chest, on the breastbone.", "Arms straight, press 5–6 cm deep."))
+  caption=("Centre of the chest, on the breastbone.", "Arms straight, press 5-6 cm deep."))
 
 CPR_CHILD = _svg("Child CPR hand position", _torso(scale_head=30, shoulder=64) + f'''
   <ellipse cx="170" cy="136" rx="22" ry="30" {HAND}/>
@@ -151,6 +151,7 @@ ILLUSTRATIONS = {
 # ---------- kinesio taping ----------
 TAPE1 = 'stroke="#11695A" stroke-opacity="0.9"'   # strip 1 - teal
 TAPE2 = 'stroke="#E09A12" stroke-opacity="0.95"'  # strip 2 - amber
+TAPE3 = 'stroke="#4F7FA8" stroke-opacity="0.9"'   # ligament strips that go on first - blue-grey
 STRETCH = 'stroke="#FFFFFF" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"'
 BADGE_TXT = 'font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#fff" text-anchor="middle"'
 
@@ -164,7 +165,7 @@ def _lines(x, y, lines, style=SMALL, step=16):
     return "".join(f'<text x="{x}" y="{y + i * step}" {style}>{t}</text>' for i, t in enumerate(lines))
 
 
-# Ankle, seen from behind
+# Ankle, outer sprain: from behind + outer side
 _LEG = ("M120,0 C112,35 110,70 128,100 C138,118 146,130 147,140 C139,142 136,152 143,158 "
         "C141,170 139,190 143,203 C148,215 188,215 193,203 C197,190 196,176 194,166 "
         "C201,162 201,150 191,148 C190,134 192,120 200,102 C217,70 216,35 208,0")
@@ -172,53 +173,69 @@ _FOOT = ("M128,214 C128,204 139,200 150,202 L186,202 C197,200 208,204 208,214 "
          "C208,220 199,222 168,222 C137,222 128,220 128,214 Z")
 
 ANKLE_TEXT = {
-    "en": dict(title="Kinesio tape on the ankle, seen from behind",
-               start=["Start on the", "inner side"],
-               stretch=["Half stretch", "over the outer", "ankle bone"],
-               back=["Around the", "back of the heel"],
-               caption=("Seen from behind, foot at a right angle.",
-                        "Stick the ends on without stretch.")),
-    "bg": dict(title="Кинезио тейп на глезена, изглед отзад",
-               start=["Начало от", "вътрешната", "страна"],
-               stretch=["Половин", "опъване над", "външния глезен"],
-               back=["Около петата", "отзад"],
-               caption=("Изглед отзад, стъпалото под прав ъгъл.",
-                        "Краищата се залепват без опъване.")),
+    "en": dict(title="Kinesio tape for an outer ankle sprain, from behind and outer side",
+               behind="From behind", side="Outer side",
+               caption=("1 over the sore spot in front of the outer",
+                        "ankle bone (goes on first), 2 stirrup under",
+                        "the heel, 3 heel locks crossing behind it.",
+                        "Foot at a right angle, ends without stretch.")),
+    "bg": dict(title="Кинезио тейп при навяхване на глезена навън, отзад и отвън",
+               behind="Отзад", side="Външна страна",
+               caption=("1 върху болното място пред външния глезен",
+                        "(слага се първа), 2 под петата нагоре,",
+                        "3 кръстосано зад петата. Стъпалото под",
+                        "прав ъгъл, краищата без опъване.")),
 }
+
+# outer side view of the right foot, toes pointing right
+_SIDE_LEG = ("M200,0 C190,45 202,105 210,150 C208,180 204,214 214,222 L322,222 "
+             "C334,222 336,206 326,202 L278,184 C262,176 252,164 250,148 C248,110 254,60 255,0")
 
 
 def tape_ankle(lang="en"):
     t = ANKLE_TEXT[lang]
     body = f'''
-  <line x1="40" y1="223" x2="300" y2="223" stroke="#CBD5D1" stroke-width="3" stroke-linecap="round"/>
-  <path d="{_FOOT}" fill="#D3DDD9" stroke="#51605A" stroke-width="2.5"/>
-  <path d="{_LEG} Z" fill="#E3EAE7"/>
-  <path d="{_LEG}" fill="none" stroke="#51605A" stroke-width="3" stroke-linejoin="round"/>
-  <path d="M160,110 C161,138 162,160 162,178 M174,110 C173,138 172,160 172,178"
-        fill="none" stroke="#9AACA5" stroke-width="2" stroke-linecap="round"/>
+  <line x1="170" y1="8" x2="170" y2="236" stroke="#CBD5D1" stroke-width="2" stroke-dasharray="4 5"/>
 
-  <path d="M125,45 C126,72 134,95 141,112 C148,126 151,136 151,146 C149,160 148,178 150,194
-           C153,210 183,210 186,194 C188,178 187,166 186,156 C185,140 185,128 190,112 C197,95 204,72 204,45"
-        fill="none" {TAPE1} stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
-  <g {STRETCH}>
-    <line x1="186" y1="140" x2="186" y2="172"/>
-    <polyline points="182,145 186,139 190,145"/>
-    <polyline points="182,167 186,173 190,167"/>
+  <g transform="translate(-80,0)">
+    <path d="{_FOOT}" fill="#D3DDD9" stroke="#51605A" stroke-width="2.5"/>
+    <path d="{_LEG} Z" fill="#E3EAE7"/>
+    <path d="{_LEG}" fill="none" stroke="#51605A" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M125,45 C126,72 134,95 141,112 C148,126 151,136 151,146 C149,160 148,178 150,194
+             C153,210 183,210 186,194 C188,178 187,166 186,156 C185,140 185,128 190,112 C197,95 204,72 204,45"
+          fill="none" {TAPE1} stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+    <g {STRETCH}>
+      <line x1="186" y1="140" x2="186" y2="172"/>
+      <polyline points="182,145 186,139 190,145"/>
+      <polyline points="182,167 186,173 190,167"/>
+    </g>
+    <line x1="146" y1="166" x2="190" y2="204" {TAPE2} stroke-width="10" stroke-linecap="round"/>
+    <line x1="190" y1="166" x2="146" y2="204" {TAPE2} stroke-width="10" stroke-linecap="round"/>
   </g>
-  <path d="M145,176 C156,184 180,184 191,176" fill="none" {TAPE2} stroke-width="12" stroke-linecap="round"/>
+  {_badge(24, 46, 2, "#11695A")}
+  {_badge(132, 186, 3, "#E09A12")}
+  <text x="85" y="250" text-anchor="middle" {SMALL}>{t["behind"]}</text>
 
-  {_badge(104, 46, 1, "#11695A")}
-  <line x1="62" y1="68" x2="95" y2="53" {LEADER}/>
-  {_lines(10, 82, t["start"])}
-  <line x1="196" y1="156" x2="230" y2="132" {LEADER}/>
-  {_lines(234, 112, t["stretch"])}
-  {_badge(216, 188, 2, "#E09A12")}
-  {_lines(234, 186, t["back"])}'''
-    return _svg(t["title"], body, caption=t["caption"])
+  <line x1="190" y1="224" x2="336" y2="224" stroke="#CBD5D1" stroke-width="3" stroke-linecap="round"/>
+  <path d="{_SIDE_LEG} Z" fill="#E3EAE7"/>
+  <path d="{_SIDE_LEG}" fill="none" stroke="#51605A" stroke-width="3" stroke-linejoin="round"/>
+  <circle cx="228" cy="158" r="10" fill="#D3DDD9" stroke="#51605A" stroke-width="2.5"/>
+  <line x1="238" y1="166" x2="272" y2="178" {TAPE3} stroke-width="11" stroke-linecap="round"/>
+  <line x1="230" y1="30" x2="226" y2="216" {TAPE1} stroke-width="12" stroke-linecap="round"/>
+  <g {STRETCH}>
+    <line x1="227.5" y1="144" x2="227.5" y2="172"/>
+    <polyline points="223.5,149 227.5,143 231.5,149"/>
+    <polyline points="223.5,167 227.5,173 231.5,167"/>
+  </g>
+  <line x1="252" y1="146" x2="212" y2="206" {TAPE2} stroke-width="10" stroke-linecap="round"/>
+  {_badge(288, 160, 1, "#4F7FA8")}
+  {_badge(200, 34, 2, "#11695A")}
+  {_badge(192, 206, 3, "#E09A12")}
+  <text x="255" y="250" text-anchor="middle" {SMALL}>{t["side"]}</text>'''
+    return _svg(t["title"], body, caption=t["caption"], h=256)
 
 
 # Knee: front view + side view with the knee bent
-TAPE3 = 'stroke="#4F7FA8" stroke-opacity="0.9"'   # side X - blue-grey, goes on first
 
 KNEE_TEXT = {
     "en": dict(title="Kinesio tape on the knee, front and side",
