@@ -146,3 +146,80 @@ ILLUSTRATIONS = {
     "back_blows_infant": BACK_BLOWS_INFANT,
     "recovery": RECOVERY,
 }
+
+
+# ---------- kinesio taping ----------
+TAPE1 = 'stroke="#11695A" stroke-opacity="0.9"'   # strip 1 - teal
+TAPE2 = 'stroke="#E09A12" stroke-opacity="0.95"'  # strip 2 - amber
+STRETCH = 'stroke="#FFFFFF" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"'
+BADGE_TXT = 'font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#fff" text-anchor="middle"'
+
+
+def _badge(x, y, n, color):
+    return (f'<circle cx="{x}" cy="{y}" r="11" fill="{color}"/>'
+            f'<text x="{x}" y="{y + 5}" {BADGE_TXT}>{n}</text>')
+
+
+def _lines(x, y, lines, style=SMALL, step=16):
+    return "".join(f'<text x="{x}" y="{y + i * step}" {style}>{t}</text>' for i, t in enumerate(lines))
+
+
+# Ankle, seen from behind
+_LEG = ("M120,0 C112,35 110,70 128,100 C138,118 146,130 147,140 C139,142 136,152 143,158 "
+        "C141,170 139,190 143,203 C148,215 188,215 193,203 C197,190 196,176 194,166 "
+        "C201,162 201,150 191,148 C190,134 192,120 200,102 C217,70 216,35 208,0")
+_FOOT = ("M128,214 C128,204 139,200 150,202 L186,202 C197,200 208,204 208,214 "
+         "C208,220 199,222 168,222 C137,222 128,220 128,214 Z")
+
+ANKLE_TEXT = {
+    "en": dict(title="Kinesio tape on the ankle, seen from behind",
+               start=["Start on the", "inner side"],
+               stretch=["Half stretch", "over the outer", "ankle bone"],
+               back=["Around the", "back of the heel"],
+               caption=("Seen from behind, foot at a right angle.",
+                        "Stick the ends on without stretch.")),
+    "bg": dict(title="Кинезио тейп на глезена, изглед отзад",
+               start=["Начало от", "вътрешната", "страна"],
+               stretch=["Половин", "опъване над", "външния глезен"],
+               back=["Около петата", "отзад"],
+               caption=("Изглед отзад, стъпалото под прав ъгъл.",
+                        "Краищата се залепват без опъване.")),
+}
+
+
+def tape_ankle(lang="en"):
+    t = ANKLE_TEXT[lang]
+    body = f'''
+  <line x1="40" y1="223" x2="300" y2="223" stroke="#CBD5D1" stroke-width="3" stroke-linecap="round"/>
+  <path d="{_FOOT}" fill="#D3DDD9" stroke="#51605A" stroke-width="2.5"/>
+  <path d="{_LEG} Z" fill="#E3EAE7"/>
+  <path d="{_LEG}" fill="none" stroke="#51605A" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M160,110 C161,138 162,160 162,178 M174,110 C173,138 172,160 172,178"
+        fill="none" stroke="#9AACA5" stroke-width="2" stroke-linecap="round"/>
+
+  <path d="M125,45 C126,72 134,95 141,112 C148,126 151,136 151,146 C149,160 148,178 150,194
+           C153,210 183,210 186,194 C188,178 187,166 186,156 C185,140 185,128 190,112 C197,95 204,72 204,45"
+        fill="none" {TAPE1} stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+  <g {STRETCH}>
+    <line x1="186" y1="140" x2="186" y2="172"/>
+    <polyline points="182,145 186,139 190,145"/>
+    <polyline points="182,167 186,173 190,167"/>
+  </g>
+  <path d="M145,176 C156,184 180,184 191,176" fill="none" {TAPE2} stroke-width="12" stroke-linecap="round"/>
+
+  {_badge(104, 46, 1, "#11695A")}
+  <line x1="62" y1="68" x2="95" y2="53" {LEADER}/>
+  {_lines(10, 82, t["start"])}
+  <line x1="196" y1="156" x2="230" y2="132" {LEADER}/>
+  {_lines(234, 112, t["stretch"])}
+  {_badge(216, 188, 2, "#E09A12")}
+  {_lines(234, 186, t["back"])}'''
+    return _svg(t["title"], body, caption=t["caption"])
+
+
+ILLUSTRATIONS["tape_ankle"] = tape_ankle("en")
+
+# Bulgarian versions. A drawing missing here falls back to the English one above.
+ILLUSTRATIONS_BG = {
+    "tape_ankle": tape_ankle("bg"),
+}

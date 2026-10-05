@@ -5,7 +5,7 @@ import streamlit as st
 
 from cards import CARDS as CARDS_EN, SEV as SEV_EN
 from cards_bg import CARDS as CARDS_BG, SEV as SEV_BG
-from illustrations import ILLUSTRATIONS
+from illustrations import ILLUSTRATIONS, ILLUSTRATIONS_BG
 
 st.set_page_config(page_title="Първа помощ · First Aid", page_icon="⛑️", layout="centered",
                    initial_sidebar_state="collapsed")
@@ -255,9 +255,11 @@ def triage_go(target):
 
 
 def picture(step):
-    """Show the step's illustration, if it has one."""
-    if len(step) > 2 and step[2] in ILLUSTRATIONS:
-        data = base64.b64encode(ILLUSTRATIONS[step[2]].encode()).decode()
+    """Show the step's illustration, if it has one (Bulgarian version when there is one)."""
+    key = step[2] if len(step) > 2 else None
+    svg = (ILLUSTRATIONS_BG.get(key) if LANG == "bg" else None) or ILLUSTRATIONS.get(key)
+    if svg:
+        data = base64.b64encode(svg.encode()).decode()
         st.markdown(f'<div class="pic"><img src="data:image/svg+xml;base64,{data}" alt=""></div>',
                     unsafe_allow_html=True)
 
