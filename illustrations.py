@@ -1,4 +1,5 @@
 """Simple SVG drawings shown under some steps. Keys are referenced from cards.py."""
+import re
 
 BODY = 'fill="#E3EAE7" stroke="#51605A" stroke-width="3"'
 HAND = 'fill="#11695A" fill-opacity="0.85" stroke="#0B4A3F" stroke-width="2"'
@@ -473,8 +474,73 @@ ILLUSTRATIONS["tape_wrist"] = tape_wrist("en")
 ILLUSTRATIONS["tape_shoulder"] = tape_shoulder("en")
 ILLUSTRATIONS["tape_back"] = tape_back("en")
 
+# ---------- Bulgarian copies of the first 7 drawings ----------
+def _translate(svg, title, texts):
+    """Bulgarian copy of a drawing: swap the title and the text labels.
+    texts maps each English label to Bulgarian text, to a list of lines, or to "" to drop it.
+    A dict value (text=..., x=..., size=...) also moves the label or makes the font smaller."""
+    svg = re.sub(r"<title>.*?</title>", f"<title>{title}</title>", svg)
+
+    def swap(m):
+        x, y, attrs, en = m.groups()
+        if en not in texts:
+            return m.group(0)
+        bg = texts[en]
+        if isinstance(bg, dict):
+            x = str(bg.get("x", x))
+            if "size" in bg:
+                attrs = re.sub(r'font-size="\d+"', f'font-size="{bg["size"]}"', attrs)
+            bg = bg["text"]
+        lines = bg if isinstance(bg, list) else ([bg] if bg else [])
+        step = 18 if 'font-size="15"' in attrs else 16
+        return "".join(f'<text x="{x}" y="{float(y) + step * i:g}"{attrs}>{t}</text>'
+                       for i, t in enumerate(lines))
+
+    return re.sub(r'<text x="([\d.]+)" y="([\d.]+)"([^>]*)>([^<]*)</text>', swap, svg)
+
+
+_BG_TEXT = {
+    "cpr_adult": ("Положение на ръцете при КПР на възрастен", {
+        "2 hands,": "2 длани,", "stacked": "застъпени",
+        "Centre of the chest, on the breastbone.": "В центъра на гърдите, върху гръдната кост.",
+        "Arms straight, press 5-6 cm deep.": "Ръцете изпънати, натиск 5-6 см дълбоко."}),
+    "cpr_child": ("Положение на ръката при КПР на дете", {
+        "Heel of": "Основата", "1 hand": "на 1 длан",
+        "Lower half of the breastbone.": "Долната половина на гръдната кост.",
+        "Press about 5 cm (one third of the chest).": "Натиск около 5 см (1/3 от гръдния кош)."}),
+    "cpr_infant": ("Положение на пръстите при КПР и гръдни тласъци на бебе", {
+        "Nipple line": ["Линия на", "зърната"],
+        "2 fingers,": "2 пръста,", "just below": "точно под",
+        "Press about 4 cm (one third of the chest).": "Натиск около 4 см (1/3 от гръдния кош).",
+        "Same spot for chest thrusts when choking.": "Същото място и за тласъците при задавяне."}),
+    "abdominal": ("Положение на ръцете при коремни тласъци", {
+        "Fist": "Юмрук", "Belly": "Пъп", "button": "",
+        "In": dict(text="Навътре", x=280, size=13), "and up": dict(text="и нагоре", x=280, size=13),
+        "Stand behind. Fist just above the belly button,": "Застанете отзад. Юмрук точно над пъпа,",
+        "other hand over it. Pull sharply in and up.": "другата ръка отгоре. Рязко навътре и нагоре."}),
+    "back_blows": ("Удари по гърба", {
+        "Heel of": "Основата", "the hand": "на дланта",
+        "Seen from behind: firm blows": "Изглед отзад: силни удари",
+        "between the shoulder blades.": "между лопатките."}),
+    "back_blows_infant": ("Удари по гърба на бебе: по корем върху предмишницата", {
+        "Heel of hand,": "С основата", "between the": "на дланта,", "shoulder blades": "между лопатките",
+        "Head lower": "Главата", "than the body": "по-ниско от тялото",
+        "Fingers hold the jaw": "Пръсти на челюстта",
+        "Rest your arm on your thigh": "Ръката върху бедрото",
+        "Baby face down along your forearm, head lower.": "По корем на предмишницата, главата по-ниско.",
+        "Hold the jaw, never the soft throat.": "Дръжте челюстта, никога мекото гърло."}),
+    "recovery": ("Възстановително положение, изглед отгоре", {
+        "Hand under cheek": "Ръка под бузата",
+        "Mouth pointing down": "Устата сочи надолу",
+        "Other arm out": "Ръка встрани",
+        "Top knee bent": "Свитото коляно", "stops rolling": "пази от обръщане",
+        "Seen from above: on the side, head tilted": "Изглед отгоре: на една страна, главата",
+        "back slightly so the airway stays open.": "леко назад, за да е свободно дишането."}),
+}
+
 # Bulgarian versions. A drawing missing here falls back to the English one above.
 ILLUSTRATIONS_BG = {
+    **{key: _translate(ILLUSTRATIONS[key], title, texts) for key, (title, texts) in _BG_TEXT.items()},
     "tape_ankle": tape_ankle("bg"),
     "tape_knee": tape_knee("bg"),
     "tape_wrist": tape_wrist("bg"),

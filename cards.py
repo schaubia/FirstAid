@@ -182,7 +182,7 @@ CARDS = [
     },
     {
         "id": "unconscious", "sev": "red", "title": "Unconscious but breathing", "sub": "Recovery position",
-        "keys": "unconscious recovery position passed out breathing faint lateral",
+        "keys": "unconscious recovery position passed out breathing faint lateral drunk alcohol",
         "recognize": "Doesn't respond, but is breathing normally.",
         "call": True,
         "steps": [
@@ -293,7 +293,7 @@ CARDS = [
     },
     {
         "id": "poisoning", "sev": "red", "title": "Poisoning", "sub": "Swallowed, breathed in, on skin",
-        "keys": "poison poisoning swallowed pills overdose tablets chemicals bleach cleaning mushrooms gas carbon monoxide fumes",
+        "keys": "poison poisoning swallowed pills overdose tablets chemicals bleach cleaning mushrooms gas carbon monoxide fumes stove heater alcohol drunk",
         "recognize": "Swallowed medicine, chemicals, plants or mushrooms; breathed in gas or fumes; or chemicals on the skin or in the eyes. May be drowsy, vomiting, confused or in pain.",
         "call": True,
         "steps": [
