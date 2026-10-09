@@ -2,7 +2,7 @@
 
 A simple first aid guide built with Streamlit. Each emergency has its own card with a clear, step-by-step protocol, so you can find what to do quickly, even under stress.
 
-**Live app:** https://YOUR-APP-NAME.streamlit.app <!-- replace with your app's link -->
+**Live app:** https://firstaidkit.streamlit.app 
 
 > ⚠️ **In an emergency, call 112 first.**
 > This app is a guide, not a replacement for professional medical help or first aid training.
@@ -29,8 +29,8 @@ A simple first aid guide built with Streamlit. Each emergency has its own card w
 You need Python 3.9 or newer.
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/YOUR-REPO.git
-cd YOUR-REPO
+git clone https://github.com/Schaubia/FirstAid.git
+cd FirstAid
 pip install -r requirements.txt
 streamlit run streamlit_app.py
 ```
